@@ -6,119 +6,224 @@
 
     <title>Create Event - HiveSpace</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        :root {
+            --bg: #f2f4f3;
+            --surface: #ffffff;
+            --ink: #14201c;
+            --muted: #5f6f68;
+            --line: #dfe5e2;
+            --brand: #0f5c4d;
+            --brand-hover: #0b4a3e;
+            --honey: #f5b301;
+            --danger: #b42318;
+            --danger-bg: #fef3f2;
+            --danger-line: #fecdca;
+            --focus: rgba(15, 92, 77, 0.22);
+            --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+            --font-body: "DM Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #1f2937;
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
+        /* Navbar */
         .navbar {
-            background: #111827;
-            color: white;
-            padding: 18px 8%;
+            background: var(--ink);
+            color: #fff;
+            padding: 16px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
         }
 
+        .logo svg { width: 26px; height: 26px; }
+
+        .admin-label { color: #9fb3ab; font-size: 14px; }
+
+        /* Layout */
         .container {
-            width: 90%;
-            max-width: 750px;
-            margin: 45px auto;
+            width: 92%;
+            max-width: 720px;
+            margin: 40px auto 64px;
         }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-bottom: 18px;
+            border-radius: 6px;
+        }
+
+        .back-link:hover { color: var(--brand); }
 
         .card {
-            background: white;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            box-shadow: 0 1px 2px rgba(20, 32, 28, 0.04), 0 12px 32px -16px rgba(20, 32, 28, 0.18);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 32px 36px 26px;
+            border-bottom: 1px solid var(--line);
+            border-top: 4px solid var(--honey);
         }
 
         h1 {
-            margin-bottom: 8px;
+            font-family: var(--font-display);
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 6px;
         }
 
-        .subtitle {
-            color: #6b7280;
-            margin-bottom: 30px;
+        .subtitle { color: var(--muted); font-size: 15px; }
+
+        .card-body { padding: 32px 36px 36px; }
+
+        /* Error summary */
+        .alert-error {
+            background: var(--danger-bg);
+            border: 1px solid var(--danger-line);
+            color: var(--danger);
+            padding: 16px 18px;
+            border-radius: 10px;
+            margin-bottom: 26px;
+            font-size: 14px;
         }
 
-        .form-group {
-            margin-bottom: 22px;
-        }
+        .alert-error strong { display: block; margin-bottom: 6px; }
+        .alert-error ul { margin-left: 18px; }
+
+        /* Form */
+        .form-group { margin-bottom: 24px; }
 
         label {
             display: block;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 700;
             margin-bottom: 8px;
         }
+
+        .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
 
         input,
         textarea {
             width: 100%;
             padding: 12px 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #fbfcfb;
+            font-family: inherit;
             font-size: 15px;
-            outline: none;
+            color: var(--ink);
+            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
         }
+
+        input::placeholder,
+        textarea::placeholder { color: #94a39c; }
+
+        input:hover,
+        textarea:hover { border-color: #c4cec9; }
 
         input:focus,
         textarea:focus {
-            border-color: #2563eb;
+            outline: none;
+            background: #fff;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 4px var(--focus);
         }
 
-        textarea {
-            min-height: 130px;
-            resize: vertical;
+        input.is-invalid,
+        textarea.is-invalid {
+            border-color: var(--danger);
+            background: var(--danger-bg);
         }
 
+        .field-error { color: var(--danger); font-size: 13px; margin-top: 6px; }
+
+        textarea { min-height: 150px; resize: vertical; line-height: 1.6; }
+
+        input[type="date"] { max-width: 260px; }
+
+        /* Actions */
         .actions {
             display: flex;
             gap: 12px;
-            margin-top: 30px;
+            margin-top: 32px;
+            padding-top: 26px;
+            border-top: 1px solid var(--line);
         }
 
         .btn {
-            padding: 12px 20px;
-            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 22px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
             text-decoration: none;
-            border: none;
             cursor: pointer;
-            font-weight: bold;
+            transition: background 0.15s, border-color 0.15s;
         }
 
-        .btn-primary {
-            background: #2563eb;
-            color: white;
-        }
+        .btn-primary { background: var(--brand); color: #fff; }
+        .btn-primary:hover { background: var(--brand-hover); }
 
-        .btn-secondary {
-            background: #e5e7eb;
-            color: #374151;
-        }
+        .btn-secondary { background: #fff; color: var(--ink); border-color: var(--line); }
+        .btn-secondary:hover { background: #f4f6f5; border-color: #c4cec9; }
 
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-secondary:hover {
-            background: #d1d5db;
+        a:focus-visible,
+        button:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 2px;
         }
 
         @media (max-width: 600px) {
-            .card {
-                padding: 25px;
-            }
+            .navbar { padding: 14px 5%; }
+            .admin-label { display: none; }
+            .card-header { padding: 26px 22px 20px; }
+            .card-body { padding: 24px 22px 28px; }
+            h1 { font-size: 26px; }
+            input[type="date"] { max-width: none; }
+            .actions { flex-direction: column-reverse; }
+            .btn { width: 100%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
         }
     </style>
 </head>
@@ -126,84 +231,109 @@
 <body>
 
 <nav class="navbar">
-    <div class="logo">HiveSpace</div>
+    <div class="logo">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polygon points="12,2 21,7 21,17 12,22 3,17 3,7" fill="#f5b301"/>
+        </svg>
+        HiveSpace
+    </div>
+    <div class="admin-label">Admin</div>
 </nav>
 
 <div class="container">
 
+    <a href="{{ route('admin.events.index') }}" class="back-link">
+        &larr; Back to events
+    </a>
+
     <div class="card">
 
-        <h1>Create New Event</h1>
+        <div class="card-header">
+            <h1>Create new event</h1>
+            <p class="subtitle">Add a community event for HiveSpace members.</p>
+        </div>
 
-        <p class="subtitle">
-            Add a new community event to HiveSpace.
-        </p>
+        <div class="card-body">
 
-        @if ($errors->any())
-            <div style="background:#fee2e2;color:#991b1b;padding:15px;border-radius:8px;margin-bottom:20px;">
-                <strong>Please fix the following:</strong>
+            @if ($errors->any())
+                <div class="alert-error" role="alert">
+                    <strong>Please fix the following:</strong>
 
-                <ul style="margin:10px 0 0 20px;">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-        <form action="{{ route('admin.events.store') }}" method="POST">
+            <form action="{{ route('admin.events.store') }}" method="POST">
 
-            @csrf
+                @csrf
 
-            <div class="form-group">
-                <label for="title">Event Title</label>
+                <div class="form-group">
+                    <label for="title">Event title</label>
 
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value="{{ old('title') }}"
-                    placeholder="Enter event title"
-                >
-            </div>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value="{{ old('title') }}"
+                        placeholder="e.g. Community Meetup"
+                        class="{{ $errors->has('title') ? 'is-invalid' : '' }}"
+                    >
 
-            <div class="form-group">
-                <label for="description">Description</label>
+                    @error('title')
+                        <p class="field-error">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <textarea
-                    id="description"
-                    name="description"
-                    placeholder="Describe your event..."
-                >{{ old('description') }}</textarea>
-            </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
 
-            <div class="form-group">
-                <label for="event_date">Event Date</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="What is this event about, and who should come?"
+                        class="{{ $errors->has('description') ? 'is-invalid' : '' }}"
+                    >{{ old('description') }}</textarea>
 
-                <input
-                    type="date"
-                    id="event_date"
-                    name="event_date"
-                    value="{{ old('event_date') }}"
-                >
-            </div>
+                    @error('description')
+                        <p class="field-error">{{ $message }}</p>
+                    @enderror
+                </div>
 
-            <div class="actions">
+                <div class="form-group">
+                    <label for="event_date">Event date</label>
 
-                <button type="submit" class="btn btn-primary">
-                    Create Event
-                </button>
+                    <input
+                        type="date"
+                        id="event_date"
+                        name="event_date"
+                        value="{{ old('event_date') }}"
+                        class="{{ $errors->has('event_date') ? 'is-invalid' : '' }}"
+                    >
 
-                <a
-                    href="{{ route('admin.events.index') }}"
-                    class="btn btn-secondary"
-                >
-                    Cancel
-                </a>
+                    @error('event_date')
+                        <p class="field-error">{{ $message }}</p>
+                    @enderror
+                </div>
 
-            </div>
+                <div class="actions">
 
-        </form>
+                    <button type="submit" class="btn btn-primary">
+                        Create event
+                    </button>
+
+                    <a href="{{ route('admin.events.index') }}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
 
