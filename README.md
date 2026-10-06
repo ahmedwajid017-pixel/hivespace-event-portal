@@ -1,58 +1,375 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# HiveSpace Coworking Event Registration System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+HiveSpace is a lightweight Laravel web application for managing coworking community events and allowing visitors to register for upcoming events.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* Public homepage with upcoming events
+* Public event detail pages
+* Event registration using name and email
+* Registration validation
+* Registration confirmation page
+* Admin event management
+* Create, edit, and delete events
+* MySQL database
+* Laravel migrations and seeders
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Technology Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* Laravel 13
+* PHP 8.5
+* MySQL 8.4
+* Laravel Sail / Docker
+* Blade
+* Vite
+* GitHub
+* Railway for deployment
 
-## Learning Laravel
+## Requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+For local development, install:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* PHP 8.5 or compatible PHP version
+* Composer
+* Docker Desktop
+* Git
+* VS Code or another code editor
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Clone the Project
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Clone the repository:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/ahmedwajid017-pixel/hivespace-event-portal.git
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Enter the project directory:
 
-## Contributing
+```bash
+cd hivespace-event-portal
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Environment Setup
 
-## Code of Conduct
+Copy the example environment file:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+cp .env.example .env
+```
 
-## Security Vulnerabilities
+On Windows PowerShell, you can also use:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```powershell
+Copy-Item .env.example .env
+```
+
+Generate the Laravel application key:
+
+```bash
+php artisan key:generate
+```
+
+If using Laravel Sail, the application key can also be generated through the container:
+
+```bash
+docker compose exec laravel.test php artisan key:generate
+```
+
+## Database Configuration
+
+The project uses MySQL.
+
+For local Docker/Sail development, configure the database values in `.env` according to the project's Docker Compose configuration.
+
+Typical values are:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=hivespace
+DB_USERNAME=sail
+DB_PASSWORD=password
+```
+
+Do not commit the real `.env` file or production credentials to GitHub.
+
+## Install Dependencies
+
+Install PHP dependencies:
+
+```bash
+composer install
+```
+
+Install frontend dependencies:
+
+```bash
+npm install
+```
+
+## Database Migration
+
+Run the migrations:
+
+```bash
+php artisan migrate
+```
+
+To run migrations inside Laravel Sail:
+
+```bash
+docker compose exec laravel.test php artisan migrate
+```
+
+## Seed Sample Events
+
+The project includes an event seeder for development data.
+
+Run:
+
+```bash
+php artisan db:seed --class=EventSeeder
+```
+
+Or run all configured seeders:
+
+```bash
+php artisan db:seed
+```
+
+## Run the Project Locally
+
+Start the Docker containers:
+
+```bash
+docker compose up -d
+```
+
+The Laravel application is then available at:
+
+```text
+http://localhost
+```
+
+Useful commands:
+
+```bash
+docker compose up -d
+docker compose down
+docker compose ps
+```
+
+To run Artisan commands inside the Laravel container:
+
+```bash
+docker compose exec laravel.test php artisan <command>
+```
+
+Example:
+
+```bash
+docker compose exec laravel.test php artisan migrate
+```
+
+## Main Application Pages
+
+### Homepage
+
+```text
+/
+```
+
+Displays available events and links to their public event pages.
+
+### Event Details and Registration
+
+```text
+/events/{event}
+```
+
+Displays:
+
+* Event title
+* Event date
+* Event description
+* Registration form
+
+### Registration Submission
+
+```text
+/events/{event}/register
+```
+
+The registration form accepts:
+
+* Name
+* Email
+
+After successful registration, the user receives a confirmation message.
+
+### Admin Event Management
+
+```text
+/admin/events
+```
+
+The admin section provides event CRUD functionality:
+
+* View events
+* Create events
+* Edit events
+* Delete events
+
+## Validation
+
+Registration data is validated before being stored.
+
+Required fields:
+
+```text
+name  - required, string, maximum 255 characters
+email - required, valid email, maximum 255 characters
+```
+
+## Database Structure
+
+The main application tables include:
+
+### Events
+
+Stores:
+
+* Event title
+* Event description
+* Event date
+
+### Registrations
+
+Stores:
+
+* Registered event
+* Participant name
+* Participant email
+
+Each registration belongs to an event through a foreign key.
+
+## Deployment
+
+The project is intended to be deployed on Railway.
+
+The deployment uses the GitHub repository as the application source.
+
+Production environment variables must be configured in Railway. At minimum, configure the Laravel application key and the production database connection.
+
+Never place production passwords, API keys, or other secrets in the GitHub repository.
+
+Database migrations should be run on the Railway deployment using Laravel's production-safe migration command:
+
+```bash
+php artisan migrate --force
+```
+
+Railway supports a Pre-Deploy Command that can be used to run migrations before the application starts.
+
+## Production Environment Variables
+
+Configure the required variables in Railway rather than committing them to the repository.
+
+Typical Laravel variables include:
+
+```env
+APP_NAME=HiveSpace
+APP_ENV=production
+APP_KEY=your-production-app-key
+APP_DEBUG=false
+APP_URL=your-production-url
+
+DB_CONNECTION=mysql
+DB_HOST=your-database-host
+DB_PORT=3306
+DB_DATABASE=your-database-name
+DB_USERNAME=your-database-user
+DB_PASSWORD=your-database-password
+```
+
+The exact database values depend on the Railway database service.
+
+## Deployment Verification
+
+After deployment, verify:
+
+1. Homepage loads successfully.
+2. Events are displayed.
+3. Event detail page opens.
+4. Registration form works.
+5. Invalid registration data is rejected.
+6. Valid registration is saved.
+7. Thank-you page is displayed.
+8. Admin event CRUD pages work.
+
+## Future Maintenance
+
+For future development:
+
+1. Pull the latest code from GitHub.
+2. Create a separate branch for larger changes.
+3. Update the `.env` file locally when required.
+4. Run migrations after database changes.
+5. Test the application locally.
+6. Commit and push tested changes.
+7. Allow Railway to deploy the updated GitHub code.
+8. Check Railway deployment logs if a deployment fails.
+
+Before production database changes, create an appropriate database backup and verify migrations carefully.
+
+## Useful Maintenance Commands
+
+Clear Laravel caches:
+
+```bash
+php artisan optimize:clear
+```
+
+Check routes:
+
+```bash
+php artisan route:list
+```
+
+Check migration status:
+
+```bash
+php artisan migrate:status
+```
+
+Run migrations:
+
+```bash
+php artisan migrate --force
+```
+
+View Docker services locally:
+
+```bash
+docker compose ps
+```
+
+## Repository
+
+GitHub repository:
+
+https://github.com/ahmedwajid017-pixel/hivespace-event-portal
+
+## Project Status
+
+The project includes:
+
+* Task 1: Event data model and homepage
+* Task 2: Admin event management CRUD
+* Task 3: Public event registration
+* Task 4: Deployment and project handover documentation
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is developed as part of an internship/project assignment.
